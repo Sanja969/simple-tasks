@@ -1,4 +1,11 @@
-const tasks = [
+interface Tasks {
+  title: string,
+  description?: string,
+  completed?: boolean,
+  dueDate?: Date,
+}
+
+const tasks: Tasks[] = [
   {
     title: "Task1",
     description: "Des1",
