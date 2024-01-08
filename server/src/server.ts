@@ -1,6 +1,6 @@
-const http = require('http');
+import * as http from 'http';
 
-const app = require('./app');
+import app from './app';
 
 const PORT = 8000;
 

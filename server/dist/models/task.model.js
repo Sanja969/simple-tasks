@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const tasks = [
     {
         title: "Task1",
@@ -14,4 +12,4 @@ const tasks = [
         dueDate: new Date("02/01/2024"),
     }
 ];
-exports.default = tasks;
+export default tasks;

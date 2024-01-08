@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "module": "ESNext",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./src"
   },
   "include": [
     "./src/**/*"
@@ -13,3 +16,4 @@
     "dist"
   ]
 }
+
