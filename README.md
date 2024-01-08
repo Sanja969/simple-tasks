@@ -25,19 +25,19 @@ After you clone it run the following commands
 
 # Option 2: You can run server and client separatly. You can now view client in the browser -  Local: http://localhost:3000, and server - Local: http://localhost:8000
 
-# Run client: 
+### Run client: 
 - cd simple-tasks/client
 - npm install
 - npm start
 
-# Run server: 
+### Run server: 
 - cd simple-tasks/server
 - npm install
 - npm start
 
 ## Server instructions
 
-# TASKS:
+### TASKS:
 
 Get all tasks: 
   endpoint: /api/v1/tasks;
@@ -57,7 +57,7 @@ Delete task with id, for example id = 1:
   endpoint: /api/v1/tasks/1;
   method: DELETE
 
-# USER:
+### USER:
 
 Login: 
   endpoint: /api/v1/login;
