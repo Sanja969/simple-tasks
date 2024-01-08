@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "This RESTful API is designed for efficient task management, offering endpoints for creating, retrieving, updating, and deleting tasks.",
   "main": "dist/server.js",
-
   "type": "module",
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
     "build": "tsc && node postbuild.js",
-    "watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "build-watch": "tsc --watch",
+    "watch-node": "nodemon --watch dist --delay 2s dist/server.js",
+    "watch": "concurrently \"npm:build-watch\" \"npm:watch-node\"",
     "prestart": "npm run build",
     "start": "node dist/server.js"
   },
@@ -30,7 +31,8 @@
     "jest": "^29.7.0",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "concurrently": "^8.2.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
