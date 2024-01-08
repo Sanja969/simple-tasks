@@ -53,7 +53,6 @@ export default function Home () {
 
   return (
     <div className='px-20'>
-      <h2 className='text-center'>Tasks</h2>
       <div className='flex justify-end py-10'>
         <Button className='bg-black text-white rounded px-6 py-3' onClick={() => createNewTask()}>Create New</Button>
       </div>

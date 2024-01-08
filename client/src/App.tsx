@@ -4,8 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getTasks } from './redux/tasks-reducer';
 import { AppDispatch } from './redux/store';
-import Home from './components/home.component';
-import TaskForm from './components/taskForm.component';
+import Navigation from './routes/navigation.component';
+import Home from './routes/home.component';
+import TaskForm from './routes/taskForm.component';
+import Login from './routes/login.component';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,8 +18,11 @@ function App() {
 
   return (
     <Routes>
-      <Route index element={<Home />} />
-      <Route path="/form" element={<TaskForm />} />
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path="/form" element={<TaskForm />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
     </Routes>
   );
 }

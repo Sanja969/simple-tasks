@@ -3,17 +3,15 @@ import { Dispatch } from 'redux';
 const url = 'http://localhost:8000/api/v1';
 const GET_USER = 'GET_USER';
 
-const initialState = {};
+const initialState = {name: localStorage.getItem('user')};
 
 export interface User {
   name: string;
-  password: boolean;
-  id: string;
 }
 
 export interface Data {
   name: string;
-  password: boolean;
+  password: string;
   type: 'login' | 'signup';
 }
 
@@ -22,10 +20,10 @@ interface GetUsersAction {
   payload: any;
 }
 
-const UsersReducer = (state = initialState, action: GetUsersAction) => {
+const userReducer = (state = initialState, action: GetUsersAction) => {
   switch (action.type) {
     case GET_USER:
-      return action.payload as User;
+      return {...state, ...action.payload as User};
     default:
       return state;
   }
@@ -45,10 +43,13 @@ export const auth = (data: Data) => async (dispatch: Dispatch) => {
       throw new Error('There is no user with this name and password');
     }
     const user = await response.json();
+
+    console.log(`response - ${JSON.stringify(user)}`);
+    localStorage.setItem('user', user.name);
   
     dispatch({
       type: GET_USER,
-      payload: user,
+      payload: { name: user.name },
     });
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
@@ -56,4 +57,13 @@ export const auth = (data: Data) => async (dispatch: Dispatch) => {
 
 };
 
-export default UsersReducer;
+export const logout = () => {
+  localStorage.setItem('user', '');
+
+  return {
+    type: GET_USER,
+    payload: { name: ''},
+  }
+}
+
+export default userReducer;
