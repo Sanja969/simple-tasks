@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { Data } from './form-reducer';
 
 const url = 'http://localhost:8000/api/v1/tasks';
 const GET_TASKS = 'GET_TASKS';
@@ -7,11 +8,11 @@ const GET_TASK = 'GET_TASK';
 const initialState = {tasks: [], task: {}};
 
 export interface Task {
-  id: number,
   title: string,
-  description?: string,
   completed: boolean,
-  dueDate?: Date,
+  id: string,
+  description?: string,
+  dueDate?: string,
 }
 
 interface GetTasksAction {
@@ -64,7 +65,7 @@ export const getTask = (id: string) => async (dispatch: Dispatch) => {
 
 };
 
-export const saveTask = (task: Task) => async(dispatch: Dispatch) => {
+export const saveTask = (task: Data) => async(dispatch: Dispatch) => {
   try {
     const response = await fetch(url,
       {
@@ -132,6 +133,7 @@ export const deleteTask = (id: string) => async(dispatch: Dispatch) => {
       type: GET_TASKS,
       payload: id,
     })
+
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }

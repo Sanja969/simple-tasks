@@ -1,19 +1,43 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Task } from '../redux/tasks-reducer';
 import { Button } from '@mui/base';
+import { Task, deleteTask, getTasks } from '../redux/tasks-reducer';
+import { setData } from '../redux/form-reducer';
+import { AppDispatch } from '../redux/store';
 
 export default function Home () {
 
-  const tasks = useSelector((state: {tasksReducer: {tasks: Task[]}}) => state.tasksReducer.tasks.sort((a, b) => b.id - a.id));
+  const tasks = useSelector((state: {tasksReducer: {tasks: Task[]}}) => 
+    state.tasksReducer.tasks.sort((a, b) => Number(b.id) - Number(a.id)));
 
+  const dispatch = useDispatch<AppDispatch>();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
   
+  const handleEdit = (task: Task) => {
+    dispatch(setData(task))
+    navigate('/form')
+  }
+
+  const handleRemove = (id: string) => {
+    dispatch(deleteTask(id))
+    dispatch(getTasks())
+  }
+
+  const createNewTask = () => {
+    dispatch(setData({
+      id: '',
+      title: '',
+      description: '',
+      completed: false,
+      dueDate: undefined,
+    }))
+    navigate('/form')
+  }
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -31,7 +55,7 @@ export default function Home () {
     <div className='px-20'>
       <h2 className='text-center'>Tasks</h2>
       <div className='flex justify-end py-10'>
-        <Button className='bg-black text-white rounded px-6 py-3'>Create New</Button>
+        <Button className='bg-black text-white rounded px-6 py-3' onClick={() => createNewTask()}>Create New</Button>
       </div>
       <Paper className=''>
         <TableContainer>
@@ -41,7 +65,8 @@ export default function Home () {
                 <TableCell >
                   <h3 className='font-bold text-white'>Task Title</h3>
                 </TableCell>
-                <TableCell><p className='text-white'>Completion Status.</p></TableCell>
+                <TableCell><p className='text-white'>Completion Status</p></TableCell>
+                <TableCell><p className='text-white'>Actions</p></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -51,6 +76,16 @@ export default function Home () {
                     <h3 className='font-bold'>{task.title}</h3>
                   </TableCell>
                   <TableCell>{task.completed ? 'completed' : 'not completed'}</TableCell>
+                  <TableCell>
+                    <div className='flex gap-6'>
+                      <Button className='bg-green-300 px-3 py-2 rounded' onClick={() => handleEdit(task)} >
+                        Edit
+                      </Button>
+                      <Button className='bg-red-300 px-3 py-2 rounded' onClick={() => handleRemove(task.id)} >
+                        Remove
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
