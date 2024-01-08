@@ -31,6 +31,11 @@ export function httpCreateUser(req, res) {
             error: 'Missing required user password'
         });
     }
+    if (users.find(u => u.name === user.name)) {
+        return res.status(400).json({
+            error: 'User with this name already exists'
+        });
+    }
     user.id = users.length + 1;
     users.push(user);
     const token = jwt.sign({ id: user.id, name: user.name }, 'testSecretKey', { expiresIn: '1h' });

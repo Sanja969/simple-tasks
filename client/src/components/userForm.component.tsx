@@ -1,13 +1,49 @@
-import { useState } from "react";
-import { useDispatch} from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/base";
 import { AppDispatch } from "../redux/store";
-import { auth } from "../redux/user-reducer";
+import { User, auth } from "../redux/user-reducer";
 
 export default function UserForm({action}: {action: 'login' | 'signup'}) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: {userReducer: User}) => state.userReducer);
+  const [errors, setErrors] = useState({
+    name: '',
+    password: '',
+    repeatPassword: '',
+    serverError: '',
+  });
+
+  useEffect(() => {
+    if (user.error) {
+      setErrors(prevErrors => ({...prevErrors, serverError: user.error}));
+    } else {
+      setErrors(prevErrors => ({...prevErrors, serverError: ''}));
+    }
+  }, [user.error]);
+
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = { name: '', password: '', repeatPassword: '' };
+
+    if (!name) {
+      newErrors.name = 'Name is required';
+      valid = false;
+    }
+    if (!password) {
+      newErrors.password = 'Password is required';
+      valid = false;
+    }
+    if (action === 'signup' && password !== repeatPassword) {
+      newErrors.repeatPassword = 'Passwords do not match';
+      valid = false;
+    }
+
+    setErrors({...errors, ...newErrors});
+    return valid;
+  };
 
   const gotToHome = () => {
     navigate('/');
@@ -47,10 +83,14 @@ export default function UserForm({action}: {action: 'login' | 'signup'}) {
       alert('Passwords do not match');
       return;
     }
+    if (!validateForm()) return;
 
     createUser(name, password);
-    gotToHome();
-    resetFormFields();
+
+    if (!user.error) {
+      gotToHome();
+      resetFormFields();
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,6 +111,7 @@ export default function UserForm({action}: {action: 'login' | 'signup'}) {
           autoComplete="off"
           required 
         />
+        <div className="error-message">{errors.name}</div>
         <input 
           className="border h-8 w-[100%] p-2"
           type="password"
@@ -81,17 +122,27 @@ export default function UserForm({action}: {action: 'login' | 'signup'}) {
           autoComplete="off"
           required
         />
+        <div className="error-message">{errors.password}</div>
         {action === 'signup' &&
-          <input 
-            className="border h-8 w-[100%] p-2"
-            type="password"
-            name="repeatPassword" 
-            placeholder="Confirm Password"
-            onChange={handleChange}
-            value={repeatPassword}
-            autoComplete="off"
-            required
-        />}
+          <>
+            <input
+              className="border h-8 w-[100%] p-2"
+              type="password"
+              name="repeatPassword"
+              placeholder="Confirm Password"
+              onChange={handleChange}
+              value={repeatPassword}
+              autoComplete="off"
+              required 
+            />
+            <div className="error-message">{errors.repeatPassword}</div>
+          </>}
+          {(errors.serverError.includes('exists') && action === 'signup') && 
+            <div className="text-red-400">{errors.serverError}</div>
+          }
+          {(errors.serverError.includes('password') && action === 'login') && 
+            <div className="text-red-400">{errors.serverError}</div>
+          }
         <Button className="border bg-black hover:bg-dark-500 text-white p-2" type="submit">
           {action === 'login' ? 'LOGIN' : 'SIGNUP'}
         </Button>

@@ -3,11 +3,12 @@ import { Dispatch } from 'redux';
 const url = 'http://localhost:8000/api/v1';
 const GET_USER = 'GET_USER';
 
-const initialState ={ name: localStorage.getItem('user') ?? '', token: localStorage.getItem('token') ?? '' };
+const initialState = { name: localStorage.getItem('user') ?? '', token: localStorage.getItem('token') ?? '', error: null };
 
 export interface User {
   token: string;
   name: string;
+  error: any;
 }
 
 export interface Data {
@@ -41,7 +42,15 @@ export const auth = (data: Data) => async (dispatch: Dispatch) => {
       },
     });
     if (!response.ok) {
-      throw new Error('There is no user with this name and password');
+      const errorMessage = data.type === 'login' ? 'There is no user with this name and password' :
+      'User with this name already exists'
+
+      dispatch({
+        type: GET_USER,
+        payload: { error: errorMessage },
+      });
+
+      throw new Error(errorMessage);
     }
     const json = await response.json();
 
@@ -51,7 +60,7 @@ export const auth = (data: Data) => async (dispatch: Dispatch) => {
   
     dispatch({
       type: GET_USER,
-      payload: { name: json.user, token: json.token },
+      payload: { name: json.user, token: json.token, error: null },
     });
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
