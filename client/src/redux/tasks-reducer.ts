@@ -30,112 +30,85 @@ const tasksReducer = (state = initialState, action: GetTasksAction) => {
       return state;
   }
 };
+const fetchData = async (url: string, options: any) => {
+  console.log(`Bearer ${localStorage.getItem('token')}`);
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem('token')}`
+  };
+
+  const response = await fetch(url, { ...options, headers });
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
 
 export const getTasks = () => async (dispatch: Dispatch) => {
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const tasks = await response.json();
-    dispatch({
-      type: GET_TASKS,
-      payload: tasks,
-    });
+    const tasks = await fetchData(url, { method: 'GET' });
+    dispatch({ type: GET_TASKS, payload: tasks });
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error('Fetch error:', error);
   }
 };
 
 export const getTask = (id: string) => async (dispatch: Dispatch) => {
   try {
-    const response = await fetch(`${url}/${id}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const task = await response.json();
+    const task = await fetchData(`${url}/${id}`, { method: 'GET' });
+    dispatch({ type: GET_TASKS, payload: task });
   
     dispatch({
       type: GET_TASK,
       payload: task,
     });
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error('Fetch error:', error);
   }
 
 };
 
 export const saveTask = (task: Data) => async(dispatch: Dispatch) => {
   try {
-    const response = await fetch(url,
-      {
-        method: 'POST',
-        body: JSON.stringify(task),
-        headers: {
-         "Content-Type": "application/json"
-        },
-      });
+    const tasks = await fetchData(url, { method: 'POST', body: JSON.stringify(task)  });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const json = await response.json();
+    dispatch({ type: GET_TASKS, payload: task });
   
     dispatch({
       type: GET_TASKS,
-      payload: json,
+      payload: tasks,
     })
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
 };
 
-export const updateTask = (task: Task) => async(dispatch: Dispatch) => {
+export const updateTask = (task: Task) => async (dispatch: Dispatch) => {
   const { id, ...other } = task;
-
   try {
-    const response = await fetch(`${url}/${id}`,
-    {
-      method: 'POST',
-      body: JSON.stringify(other),
-      headers: {
-       "Content-Type": "application/json"
-      },
+    const updatedTasks = await fetchData(`${url}/${id}`, { 
+      method: 'POST', 
+      body: JSON.stringify(other) 
     });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const json = await response.json();
-
-    dispatch({
-      type: GET_TASKS,
-      payload: json,
-    })
+    dispatch({ type: GET_TASKS, payload: updatedTasks });
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error('Fetch error:', error);
   }
 };
 
 export const deleteTask = (id: string) => async(dispatch: Dispatch) => {
   try {
-    await fetch(`${url}/${id}`,
-    {
-      method: 'DELETE',
-      headers: {
-       "Content-Type": "application/json"
-      },
+    const updatedTasks = await fetchData(`${url}/${id}`, { 
+      method: 'DELETE', 
     });
 
     dispatch({
       type: GET_TASKS,
-      payload: id,
+      payload: updatedTasks,
     })
 
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error('Fetch error:', error);
   }
 };
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveTask, updateTask } from "../redux/tasks-reducer";
+import { saveTask, updateTask, getTasks } from "../redux/tasks-reducer";
 import { Data } from "../redux/form-reducer";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/base";
@@ -55,6 +55,7 @@ export default function TaskForm() {
       editTask(title, description, completed, dueDate, id);
     } else {
       createTask(title, description, completed, dueDate);
+      dispatch(getTasks())
     }
     gotToHome();
     resetFormFields();

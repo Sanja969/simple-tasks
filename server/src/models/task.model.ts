@@ -1,5 +1,6 @@
 interface Tasks {
   id: number,
+  userId: number,
   title: string,
   description?: string,
   completed: boolean,
@@ -9,6 +10,7 @@ interface Tasks {
 const tasks: Tasks[] = [
   {
     id: 1,
+    userId: 1,
     title: "Task1",
     description: "Des1",
     completed: false,
@@ -16,6 +18,7 @@ const tasks: Tasks[] = [
   },
   {
     id: 2,
+    userId: 2,
     title: "Task2",
     description: "Des2",
     completed: false,

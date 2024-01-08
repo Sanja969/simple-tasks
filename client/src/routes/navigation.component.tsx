@@ -4,11 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { User, logout } from "../redux/user-reducer";
 import { useEffect } from "react";
+import { getTasks } from "../redux/tasks-reducer";
 
 export default function Navigation () {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: {userReducer: User}) => state.userReducer);
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [user]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -16,6 +21,7 @@ export default function Navigation () {
   };
 
   useEffect(() => {
+    console.log(user.token)
     if(!user.name) {
       navigate('/login');
     }

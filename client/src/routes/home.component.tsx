@@ -4,7 +4,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/base';
-import { Task, deleteTask, getTasks } from '../redux/tasks-reducer';
+import { Task, deleteTask } from '../redux/tasks-reducer';
 import { setData } from '../redux/form-reducer';
 import { AppDispatch } from '../redux/store';
 
@@ -25,7 +25,6 @@ export default function Home () {
 
   const handleRemove = (id: string) => {
     dispatch(deleteTask(id))
-    dispatch(getTasks())
   }
 
   const createNewTask = () => {
