@@ -17,13 +17,13 @@ to get a local copy , clone the repository using git clone
 
 After you clone it run the following commands
 
-# Option 1: You can run both server and client directly from the simple tasks directory. You can now view client in the browser -  Local: http://localhost:8000
+### Option 1: You can run both server and client directly from the simple tasks directory. You can now view client in the browser -  Local: http://localhost:8000
 
 - cd simple-tasks
 - npm install
 - npm run deploy
 
-# Option 2: You can run server and client separatly. You can now view client in the browser -  Local: http://localhost:3000, and server - Local: http://localhost:8000
+### Option 2: You can run server and client separatly. You can now view client in the browser -  Local: http://localhost:3000, and server - Local: http://localhost:8000
 
 ### Run client: 
 - cd simple-tasks/client
