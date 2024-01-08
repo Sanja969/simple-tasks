@@ -1,4 +1,4 @@
-#Simple Tasks
+# Simple Tasks
 
 - This React application is a fully functional example of CRUD (Create, Read, Update, Delete) operations using an API. It features an interactive interface where users can view a list of tasks and perform actions such as editing, updating, and deleting these tasks. This app showcases practical implementations of common web application functionalities.
 
