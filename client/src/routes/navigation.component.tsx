@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "@mui/base/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
@@ -17,13 +17,13 @@ export default function Navigation () {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate('/auth');
   };
 
   useEffect(() => {
     console.log(user.token)
     if(!user.name) {
-      navigate('/login');
+      navigate('/auth');
     }
   }, [user]);
 
@@ -36,7 +36,7 @@ export default function Navigation () {
             <p className="text-white text-[10px]">{user.name}</p>
             <Button className="text-white text-[10px]" onClick={() => handleLogout()}>Logout</Button>
           </div> :
-          <a href="/login"><p className="text-white text-[20px] cursor-pointer">Register</p></a>
+          <a href="/auth"><p className="text-white text-[20px] cursor-pointer">Register</p></a>
         }
       </div>
       <Outlet />

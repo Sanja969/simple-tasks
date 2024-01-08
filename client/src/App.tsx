@@ -3,7 +3,7 @@ import './App.css';
 import Navigation from './routes/navigation.component';
 import Home from './routes/home.component';
 import TaskForm from './routes/taskForm.component';
-import Login from './routes/login.component';
+import Auth from './routes/auth.component';
 
 function App() {
 
@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
         <Route path="/form" element={<TaskForm />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<Auth />} />
       </Route>
     </Routes>
   );
