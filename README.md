@@ -1,6 +1,6 @@
 # Simple Tasks
 
-- This React application is a fully functional example of CRUD (Create, Read, Update, Delete) operations using an API. It features an interactive interface where users can view a list of tasks and perform actions such as editing, updating, and deleting these tasks. This app showcases practical implementations of common web application functionalities.
+Simple Tasks is a dynamic React application demonstrating CRUD (Create, Read, Update, Delete) operations via an API. It offers an interactive user interface to manage tasks, featuring functionalities such as adding, viewing, editing, and deleting tasks. This project exemplifies essential web application features in a practical setting.
 
 ## Built With
 
@@ -13,61 +13,59 @@ or
 ### Clone it in your local machine using GIT
 
 to get a local copy , clone the repository using git clone
-(git@github.com:Sanja969/simple-crud.git)
+(git@github.com:Sanja969/simple-tasks.git)
 
-After you clone it run the following commands
+### Running the Application
 
-### Option 1: You can run both server and client directly from the simple tasks directory. You can now view client in the browser -  Local: http://localhost:8000
+#### Option 1: Option 1: Direct Run
+Run both server and client from the 'simple-tasks' directory:
 
 - cd simple-tasks
 - npm install
 - npm run deploy
 
-### Option 2: You can run server and client separatly. You can now view client in the browser -  Local: http://localhost:3000, and server - Local: http://localhost:8000
+Access the app at: http://localhost:8000
 
-### Run client: 
+#### Option 2: Separate Run
+Run client and server separately:
+
+#### Run client: 
 - cd simple-tasks/client
 - npm install
 - npm start
 
-### Run server: 
+Access at: http://localhost:3000
+
+#### Run server: 
 - cd simple-tasks/server
 - npm install
 - npm start
 
-## Server instructions
+Access at: http://localhost:8000
 
-### TASKS:
+### Server instructions
 
-Get all tasks: 
-  endpoint: /api/v1/tasks;
-  method: GET
-Get task with id, for example id = 1: 
-  endpoint: /api/v1/tasks/1;
-  method: GET
-Create task for example with title = 'Title': 
-  endpoint: /api/v1/tasks;
-  method: POST
-  body: { title: 'Title' }
-Update task with id, for example id = 1, for example with new title = 'new Title': 
-  endpoint: /api/v1/tasks/1;
-  method: POST;
-  body: { title: 'new Title' }
-Delete task with id, for example id = 1: 
-  endpoint: /api/v1/tasks/1;
-  method: DELETE
+#### TASKS:
 
-### USER:
+- Get All Tasks: GET /api/v1/tasks
+- Get Task by ID: GET /api/v1/tasks/{id}
+- Create Task: POST /api/v1/tasks with body { title: 'Title' }
+- Update Task: POST /api/v1/tasks/{id} with body { title: 'New Title' }
+- Delete Task: DELETE /api/v1/tasks/{id}
 
-Login: 
-  endpoint: /api/v1/login;
-  method: POST;
-  body: { name: string, password: string }
+#### USER:
 
-Signup: 
-  endpoint: /api/v1/signup;
-  method: POST;
-  body: { name: string, password: string }
+- Login: POST /api/v1/login with body { name: User 1, password: user1 }
+- Signup: POST /api/v1/signup with body { name: User 10, password: user10 }
+
+### Note:
+
+For your convenience, the application includes pre-registered users with the following credentials:
+
+  - name: "User 1", password: "user1"
+  - name: "User 2", password: "user2",
+
+You may log in using these credentials to explore the application's features. For a more personalized experience, you have the option to register as a new user.
 
 ## Authors
 
